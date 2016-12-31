@@ -14,7 +14,7 @@ To run the application in development mode (with hot reloading for the client an
 # Start the Docker container for Redis (-d suppresses output)
 docker-compose up -d
 
-# Start the server and the client in dev mod
+# Start the server and the client in dev mode
 npm run start-dev
 ```
 
