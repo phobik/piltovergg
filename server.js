@@ -1,7 +1,6 @@
 // Load environment variables
 require('dotenv').config()
 
-const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
 const summoners = require('./lib/summoners')
@@ -11,7 +10,11 @@ const app = express()
 const logger = morgan('dev')
 
 app.use(logger)
-app.use(cors())
+
+// Express only serves static assets in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+}
 
 // TODO: Move routes/handler methods into their own modules + consider
 // dynamically adding `catch` statements to each handle promise
