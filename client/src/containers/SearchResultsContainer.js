@@ -1,0 +1,58 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import MatchesContainer from './MatchesContainer'
+import SummonerContainer from './SummonerContainer'
+import StatsContainer from './StatsContainer'
+
+import {
+  fetchSummonerData,
+  fetchSummonerStats,
+  fetchSummonerLeague,
+  fetchSummonerRecentMatches,
+  setRegion,
+  setSummoner
+} from '../actions'
+
+class SearchResultsContainer extends Component {
+  componentDidMount () {
+    const { summoner, region } = this.props.routeParams
+    const { dispatch } = this.props
+
+    dispatch(setRegion(region))
+    dispatch(setSummoner(summoner))
+
+    let summonerId
+
+    dispatch(fetchSummonerData({ summoner, region }))
+      .then(({ summonerData }) => {
+        summonerId = summonerData[summoner].id
+        return dispatch(fetchSummonerStats({ summonerId: summonerId, region }))
+      })
+      .then(() => dispatch(fetchSummonerLeague({ summonerId: summonerId, region })))
+      .then(() => dispatch(fetchSummonerRecentMatches({ summonerId: summonerId, region })))
+      .catch((error) => {
+        // TODO: Handle error in request chain
+        console.error(error)
+      })
+  }
+
+  render () {
+    return (
+      <div className="search-results-container">
+        <SummonerContainer/>
+        <StatsContainer />
+        <MatchesContainer />
+      </div>
+    )
+  }
+}
+
+function mapStateToProps (state) {
+  return {
+    summoner: state.summoner,
+    region: state.region
+  }
+}
+
+export default connect(mapStateToProps)(SearchResultsContainer)
