@@ -1,0 +1,31 @@
+{
+  "name": "piltovergg-server",
+  "version": "0.0.0",
+  "description": "Backend Server for piltover.gg League of Legends stat website",
+  "main": "server.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start-dev": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node server.js",
+    "client": "cd client && npm start"
+  },
+  "author": "Kyle Pollich",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^3.1.0",
+    "standard": "8.5.0"
+  },
+  "dependencies": {
+    "bluebird": "3.4.6",
+    "cors": "2.8.1",
+    "dotenv": "2.0.0",
+    "express": "^4.14.0",
+    "lol-api-client": "0.3.2",
+    "morgan": "^1.7.0",
+    "redis": "2.6.3",
+    "request": "2.79.0",
+    "request-promise": "4.1.1",
+    "request-rate-limiter": "1.0.1"
+  }
+}
