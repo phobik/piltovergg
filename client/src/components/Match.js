@@ -13,6 +13,7 @@ class Match extends Component {
     const blueTeamPlayerNodes = participants[100].map((p) => {
       return (
         <div className="blue-team-player" key={p.participant.participantId}>
+          <img src={p.participant.championThumbnailUrl} />
           <span className="player-name">{p.identity.player.summonerName}</span>
         </div>
       )
@@ -22,6 +23,7 @@ class Match extends Component {
       return (
         <div className="red-team-player" key={p.participant.participantId}>
           <span className="player-name">{p.identity.player.summonerName}</span>
+          <img src={p.participant.championThumbnailUrl} />
         </div>
       )
     })
