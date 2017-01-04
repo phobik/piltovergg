@@ -52,7 +52,8 @@ function marshallStatsSummary (summary) {
 
 function mapStateToProps (state) {
   return {
-    data: state.summonerStats
+    data: state.summonerStats,
+    isFetching: state.isFetching
   }
 }
 

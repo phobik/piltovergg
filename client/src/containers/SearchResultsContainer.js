@@ -27,9 +27,9 @@ class SearchResultsContainer extends Component {
     dispatch(fetchSummonerData({ summoner, region }))
       .then(({ summonerData }) => {
         summonerId = summonerData[summoner].id
-        return dispatch(fetchSummonerStats({ summonerId: summonerId, region }))
+        return dispatch(fetchSummonerLeague({ summonerId: summonerId, region }))
       })
-      .then(() => dispatch(fetchSummonerLeague({ summonerId: summonerId, region })))
+      .then(() => dispatch(fetchSummonerStats({ summonerId: summonerId, region })))
       .then(() => dispatch(fetchSummonerRecentMatches({ summonerId: summonerId, region })))
       .catch((error) => {
         // TODO: Handle error in request chain

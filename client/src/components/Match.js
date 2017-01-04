@@ -2,81 +2,54 @@ import React, { Component } from 'react'
 
 class Match extends Component {
   render () {
-    const playedAt = parseMatchTimestamp(this.props.details.matchCreation)
+    const msPlayedAgo = new Date() - new Date(this.props.details.matchCreation)
+    const playedAgoString = getPlayedAgoString((msPlayedAgo))
+
     const matchDuration = this.props.details.matchDuration
+    const championImgSrc = this.props.championThumbnailUrl
 
-    const participants = marshallParticipants(
-      this.props.details.participants,
-      this.props.details.participantIdentities
-    )
-
-    const blueTeamPlayerNodes = participants[100].map((p) => {
-      return (
-        <div className="blue-team-player" key={p.participant.participantId}>
-          <img src={p.participant.championThumbnailUrl} />
-          <span className="player-name">{p.identity.player.summonerName}</span>
-        </div>
-      )
-    })
-
-    const redTeamPlayerNodes = participants[200].map((p) => {
-      return (
-        <div className="red-team-player" key={p.participant.participantId}>
-          <span className="player-name">{p.identity.player.summonerName}</span>
-          <img src={p.participant.championThumbnailUrl} />
-        </div>
-      )
-    })
-
-    const participantNodes = (
-      <div className="participant-container">
-        <div className="blue-team">
-          {blueTeamPlayerNodes}
-        </div>
-        <div className="red-team">
-          {redTeamPlayerNodes}
-        </div>
-      </div>
-    )
+    const winningTeamId = this.props.details.teams.find((team) => team.winner).teamId
 
     const durationString = `${Math.floor(matchDuration / 60)}m ${matchDuration % 60}s`
+
     return (
       <div className="match card">
         <p className="match-played-at">
-          {playedAt}
+          {playedAgoString}
         </p>
         <p className="match-duration">
           Match duration: {durationString}
         </p>
-        {participantNodes}
+        <img className="match-champion" src={championImgSrc}/>
       </div>
     )
   }
 }
 
-function parseMatchTimestamp (timestamp) {
-  const monthNames = [
-    'January', 'February', 'March',
-    'April', 'May', 'June',
-    'July', 'August', 'September',
-    'October', 'November', 'December'
-];
+function getPlayedAgoString(msPlayedAgo) {
+  const MILLISECONDS_PER_DAY = (1000 * 60 * 60 * 24)
+  const MILLISECONDS_PER_HOUR = (1000 * 60 * 60)
+  const MILLISECONDS_PER_MINUTE= (1000 * 60)
 
-  const playedAt = new Date(timestamp)
-  const month = monthNames[playedAt.getMonth()]
-  const day = playedAt.getDate()
-  const year = 1900 + playedAt.getYear()
+  const daysPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_DAY)
 
-  return `${month} ${day}, ${year}`
-}
+  if (daysPlayedAgo > 0) {
+    return `${daysPlayedAgo} days ago`
+  }
 
-function marshallParticipants (participants, participantIdentities) {
-  return participants.reduce((result, participant) => {
-    const identity = participantIdentities.find((p) => p.participantId === participant.participantId)
-    result[participant.teamId].push({ participant, identity })
+  const hoursPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_HOUR)
 
-    return result
-  }, { 100: [], 200: [] })
+  if (hoursPlayedAgo > 0) {
+    return `${hoursPlayedAgo} hours ago`
+  }
+
+  const minutesPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_MINUTE)
+
+  if (minutesPlayedAgo > 0) {
+    return `${minutesPlayedAgo} minutes ago`
+  }
+
+  return 'a few seconds ago'
 }
 
 export default Match

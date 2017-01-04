@@ -88,13 +88,19 @@ header {
   margin: auto auto;
 }
 
+.winning-team {
+  border: 5px solid green;
+}
+
 .blue-team {
+  box-sizing: border-box;
   width: 50%;
   display: inline-block;
   background-color: #79d7e7;
 }
 
 .red-team {
+  box-sizing: border-box;
   width: 50%;
   display: inline-block;
   text-align: right;

@@ -10,7 +10,12 @@ class MatchesContainer extends Component {
     }
 
     return (
-      <div>{getMatchNodes(this.props.matches)}</div>
+      <div class="matches-container">
+        <h2>Recent Ranked Matches</h2>
+        <div>
+          {getMatchNodes(this.props.matches)}
+        </div>
+      </div>
     )
   }
 }
