@@ -30,3 +30,5 @@ The `server` uses [dotenv](https://github.com/motdotla/dotenv) for loading envir
 | REDIS_PORT | The port on which Redis listens | N/A |
 | RIOT_API_KEY | API key used for authenticating to Riot's LoL API | N/ A |
 | PORT | Port on which the Express server will listen | 8000 |
+| RATE_LIMIT| Number of requests allowed per interval | N/A |
+| RATE_LIMIT_INTERVAL | Interval used for RATE_LIMIT | N/A |
