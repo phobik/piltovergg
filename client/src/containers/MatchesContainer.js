@@ -10,10 +10,10 @@ class MatchesContainer extends Component {
     }
 
     return (
-      <div class="matches-container">
+      <div className="matches-container">
         <h2>Recent Ranked Matches</h2>
         <div>
-          {getMatchNodes(this.props.matches)}
+          {getMatchNodes(this.props.matches, this.props.summonerId)}
         </div>
       </div>
     )
@@ -25,13 +25,14 @@ export default connect(mapStateToProps)(MatchesContainer)
 function mapStateToProps (state) {
   return {
     matches: state.summonerMatches,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    summonerId: state.summoner.id
   }
 }
 
-function getMatchNodes (matches) {
+function getMatchNodes (matches, summonerId) {
   return matches
     .map((match) => {
-      return <Match key={match.matchId} {...match} />
+      return <Match key={match.matchId} summonerId={summonerId} {...match} />
     })
 }

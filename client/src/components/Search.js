@@ -4,7 +4,7 @@ class Search extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { summoner: '', region: '' }
+    this.state = { summoner: '', region: 'na' }
 
     this.handleSummonerChange = this.handleSummonerChange.bind(this)
     this.handleRegionChange = this.handleRegionChange.bind(this)
@@ -30,20 +30,21 @@ class Search extends Component {
 
   render () {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="search-group">
-          <input
-            type="text"
-            onChange={this.handleSummonerChange}
-            className="input-summoner"
-          />
-          <select onChange={this.handleRegionChange} className="input-region">
-            <option value="-1">Select a region</option>
-            <option value="na">NA</option>
-          </select>
-        </div>
+      <form className="search-form" onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          onChange={this.handleSummonerChange}
+          className="input-summoner"
+          placeholder="Enter a summoner name"
+        />
 
-        <input type="submit" value="Get Summoner Stats" className="submit-search"/>
+        <button className="search-button" type="submit" >
+          <i className="fa fa-search search-icon" aria-hidden="true"></i>
+        </button>
+
+        <select onChange={this.handleRegionChange} className="input-region">
+          <option value="na" selected="selected">NA</option>
+        </select>
       </form>
     )
   }

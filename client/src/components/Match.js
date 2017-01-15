@@ -2,13 +2,26 @@ import React, { Component } from 'react'
 
 class Match extends Component {
   render () {
-    const msPlayedAgo = new Date() - new Date(this.props.details.matchCreation)
-    const playedAgoString = getPlayedAgoString((msPlayedAgo))
+    const matchDetails = this.props.details
+    const summonerId = this.props.summonerId
 
-    const matchDuration = this.props.details.matchDuration
+    // Set up timestamp/match duration presentation
+    const msPlayedAgo = new Date() - new Date(matchDetails.matchCreation)
+    const playedAgoString = getPlayedAgoString((msPlayedAgo))
+    const matchDuration = matchDetails.matchDuration
+
+    // Champion played image + TODO: item images
     const championImgSrc = this.props.championThumbnailUrl
 
-    const winningTeamId = this.props.details.teams.find((team) => team.winner).teamId
+    // Grab the matching Participant and ParticipantIdentity objects
+    const participant = matchDetails.participants.find((p) => p.summonerId === summonerId)
+    const identity = matchDetails.participantIdentities.find((pi) => pi.participantId === participant.participantId)
+
+    console.log(participant, identity)
+
+    // Display this match as either a win or loss
+    const winningTeamId = matchDetails.teams.find((team) => team.winner).teamId
+
 
     const durationString = `${Math.floor(matchDuration / 60)}m ${matchDuration % 60}s`
 
@@ -20,7 +33,7 @@ class Match extends Component {
         <p className="match-duration">
           Match duration: {durationString}
         </p>
-        <img className="match-champion" src={championImgSrc}/>
+        <img className="match-champion" src={championImgSrc} role="presentation"/>
       </div>
     )
   }

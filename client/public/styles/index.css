@@ -6,7 +6,7 @@ body {
 
 header {
   padding: 1em;
-  background-color: #3f9380;
+  background-color: #34495e;
   color: #fff;
 }
 
@@ -16,7 +16,6 @@ header {
 }
 
 .subtitle {
-  display: inline-block;
   float: right;
 }
 
@@ -39,43 +38,44 @@ header {
   width: 50%;
 }
 
-.search-container {
-  width: 60%;
-  margin: 4em auto;
-  padding: 1em;
-  background-color: #e2e2e2;
-  border-radius: 2px;
+.search-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1em auto;
+  height: 50%;
 }
 
-.search-group {
-  margin: auto auto;
-  width: 80%;
+.search-form {
+  position: relative;
+}
+
+.search-container {
+  width: 40%;
+  margin: 4em auto;
+  background-color: #e2e2e2;
+  border-radius: 2px;
+  display: block;
 }
 
 .input-summoner {
   background-color: #fff;
-  margin: 1em;
   border-radius: 2px;
   border: 1px solid #696969;
   color: #000;
   height: 2em;
-  width: 70%;
+  width: 100%;
   padding: .3em;
   font-size: 1.2em;
+  display: block;
 }
 
 .input-region {
-  height: 3em;
-}
-
-.submit-search {
-  display: block;
-  margin: auto;
+  position: absolute;
+  top: 0;
+  right: 40px;
+  margin: 1em auto;
   height: 2em;
-}
-
-.summoner-container {
-  width: 40%;
 }
 
 .summoner-info {
