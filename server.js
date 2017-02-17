@@ -2,6 +2,7 @@
 require('dotenv').config()
 
 const express = require('express')
+const matches = require('./lib/matches')
 const morgan = require('morgan')
 const summoners = require('./lib/summoners')
 
@@ -47,18 +48,8 @@ app.get('/api/summoners/:region/:id/stats', (request, response) => {
 app.get('/api/summoners/:region/:id/matches', (request, response) => {
   const { id, region } = request.params
 
-  summoners.getMatchListById({ summonerId: id, region })
-    .then((matchData) => {
-      return Promise.all(matchData.matches.map((match) => {
-        return summoners.getMatchDetailsById({ matchId: match.matchId, region })
-          .then((details) => {
-            match.details = details
-          })
-      }))
-      .then(() => {
-        response.send(matchData)
-      })
-    })
+  matches.getMatchesBySummonerId({ summonerId: id, region })
+    .then((data) => response.send(data))
     .catch((error) => {
       console.log(error)
       response.send(error)

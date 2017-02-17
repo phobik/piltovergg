@@ -13,7 +13,7 @@ class SummonerContainer extends Component {
       )
     }
 
-    const summonerId = data[summoner].id
+    const summonerId = data.id
 
     if (!league[summonerId]) {
       return (
@@ -25,7 +25,7 @@ class SummonerContainer extends Component {
 
     return (
       <div className="summoner-container card">
-        <Summoner summonerData={data[summoner]} leagueData={leagueData}  />
+        <Summoner summonerData={data} leagueData={leagueData}  />
       </div>
     )
   }

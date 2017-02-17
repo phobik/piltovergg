@@ -26,7 +26,7 @@ class SearchResultsContainer extends Component {
 
     dispatch(fetchSummonerData({ summoner, region }))
       .then(({ summonerData }) => {
-        summonerId = summonerData[summoner].id
+        summonerId = summonerData.id
         return dispatch(fetchSummonerLeague({ summonerId: summonerId, region }))
       })
       // .then(() => dispatch(fetchSummonerStats({ summonerId: summonerId, region })))
