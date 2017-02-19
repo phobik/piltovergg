@@ -3,15 +3,16 @@ import React, { Component } from 'react'
 class Match extends Component {
   render () {
     const matchDetails = this.props.details
-    const summonerId = this.props.summonerId
+    const { summonerId, championThumbnailUrl } = this.props
+
+    // TODO: Potentially move parts of this data marshalling process
+    // to the server or at the very least move it into separate methods
+    // to clean up this `render` method.
 
     // Set up timestamp/match duration presentation
     const msPlayedAgo = new Date() - new Date(matchDetails.matchCreation)
     const playedAgoString = getPlayedAgoString((msPlayedAgo))
     const matchDuration = matchDetails.matchDuration
-
-    // TODO: item images
-    const championImgSrc = this.props.championThumbnailUrl
 
     // Find the corresponding `participant` and `participantIentity` objects
     // based on the `summonerId` of the summoner being searched
@@ -19,6 +20,18 @@ class Match extends Component {
       .find((pi) => pi.player.summonerId === summonerId)
     const summonerParticipant = matchDetails.participants
       .find((p) => p.participantId === summonerIdentity.participantId)
+
+    const items = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
+      const id = summonerParticipant.stats[key]
+      const src = id === 0 ?
+        'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png' :
+        `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
+
+      return (
+        // TODO: Alt text
+        <img key={index} className="item-img" src={src} alt="item" />
+      )
+    })
 
     // Grab KDA values out of the summoner's stats
     const { kills, deaths, assists } = summonerParticipant.stats
@@ -41,12 +54,16 @@ class Match extends Component {
           Match duration: {durationString}
         </p>
 
-        <img className="match-champion" src={championImgSrc} role="presentation"/>
+        <img className="match-champion" src={championThumbnailUrl} role="presentation"/>
 
         <div className="match-summoner-stats">
           <span className="kills">{kills}</span>/
           <span className="deaths">{deaths}</span>/
           <span className="assists">{assists}</span>
+
+          <div className="items-container">
+            {items}
+          </div>
         </div>
       </div>
     )
