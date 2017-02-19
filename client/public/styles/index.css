@@ -97,8 +97,12 @@ header {
   margin: auto auto;
 }
 
-.winning-team {
-  border: 5px solid green;
+.win {
+  background-color: #7ccb73;
+}
+
+.loss {
+  background-color: #de8484;
 }
 
 .blue-team {
@@ -114,4 +118,11 @@ header {
   display: inline-block;
   text-align: right;
   background-color: #fa6868;
+}
+
+.match-summoner-stats {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 1.3em;
+  margin-left: .5em;
 }

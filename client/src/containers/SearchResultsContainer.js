@@ -3,11 +3,9 @@ import { connect } from 'react-redux'
 
 import MatchesContainer from './MatchesContainer'
 import SummonerContainer from './SummonerContainer'
-import StatsContainer from './StatsContainer'
 
 import {
   fetchSummonerData,
-  fetchSummonerStats,
   fetchSummonerLeague,
   fetchSummonerRecentMatches,
   setRegion,
@@ -41,7 +39,6 @@ class SearchResultsContainer extends Component {
     return (
       <div className="search-results-container">
         <SummonerContainer/>
-        {/* <StatsContainer /> */}
         <MatchesContainer />
       </div>
     )

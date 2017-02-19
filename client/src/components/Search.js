@@ -42,8 +42,8 @@ class Search extends Component {
           <i className="fa fa-search search-icon" aria-hidden="true"></i>
         </button>
 
-        <select onChange={this.handleRegionChange} className="input-region">
-          <option value="na" selected="selected">NA</option>
+        <select onChange={this.handleRegionChange} defaultValue="na" className="input-region">
+          <option value="na">NA</option>
         </select>
       </form>
     )

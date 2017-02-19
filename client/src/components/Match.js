@@ -10,30 +10,44 @@ class Match extends Component {
     const playedAgoString = getPlayedAgoString((msPlayedAgo))
     const matchDuration = matchDetails.matchDuration
 
-    // Champion played image + TODO: item images
+    // TODO: item images
     const championImgSrc = this.props.championThumbnailUrl
 
-    // Grab the matching Participant and ParticipantIdentity objects
-    const participant = matchDetails.participants.find((p) => p.summonerId === summonerId)
-    const identity = matchDetails.participantIdentities.find((pi) => pi.participantId === participant.participantId)
+    // Find the corresponding `participant` and `participantIentity` objects
+    // based on the `summonerId` of the summoner being searched
+    const summonerIdentity = matchDetails.participantIdentities
+      .find((pi) => pi.player.summonerId === summonerId)
+    const summonerParticipant = matchDetails.participants
+      .find((p) => p.participantId === summonerIdentity.participantId)
 
-    console.log(participant, identity)
+    // Grab KDA values out of the summoner's stats
+    const { kills, deaths, assists } = summonerParticipant.stats
 
-    // Display this match as either a win or loss
+    // Determine whether this match should be displayed as a win or loss based
+    // on which summoner is being search for
     const winningTeamId = matchDetails.teams.find((team) => team.winner).teamId
+    const isWin = summonerParticipant.teamId === winningTeamId
+    const matchCardClassName = isWin ? "match card win" : "match card loss"
 
-
+    // Prettify the match duration a bit
     const durationString = `${Math.floor(matchDuration / 60)}m ${matchDuration % 60}s`
 
     return (
-      <div className="match card">
+      <div className={matchCardClassName}>
         <p className="match-played-at">
           {playedAgoString}
         </p>
         <p className="match-duration">
           Match duration: {durationString}
         </p>
+
         <img className="match-champion" src={championImgSrc} role="presentation"/>
+
+        <div className="match-summoner-stats">
+          <span className="kills">{kills}</span>/
+          <span className="deaths">{deaths}</span>/
+          <span className="assists">{assists}</span>
+        </div>
       </div>
     )
   }
@@ -46,20 +60,21 @@ function getPlayedAgoString(msPlayedAgo) {
 
   const daysPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_DAY)
 
+  // TODO: Non-lazy pluralization
   if (daysPlayedAgo > 0) {
-    return `${daysPlayedAgo} days ago`
+    return `${daysPlayedAgo} day(s) ago`
   }
 
   const hoursPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_HOUR)
 
   if (hoursPlayedAgo > 0) {
-    return `${hoursPlayedAgo} hours ago`
+    return `${hoursPlayedAgo} hour(s) ago`
   }
 
   const minutesPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_MINUTE)
 
   if (minutesPlayedAgo > 0) {
-    return `${minutesPlayedAgo} minutes ago`
+    return `${minutesPlayedAgo} minute(s) ago`
   }
 
   return 'a few seconds ago'

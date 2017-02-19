@@ -26,7 +26,7 @@ function mapStateToProps (state) {
   return {
     matches: state.summonerMatches,
     isFetching: state.isFetching,
-    summonerId: state.summoner.id
+    summonerId: !!state.summonerData ? state.summonerData.id : 0
   }
 }
 

@@ -5,7 +5,7 @@ import Summoner from '../components/Summoner'
 
 class SummonerContainer extends Component {
   render () {
-    const { isFetching, summoner, data, league } = this.props
+    const { isFetching, data, league } = this.props
 
     if (isFetching || !data || !league) {
       return (
@@ -35,8 +35,7 @@ function mapStateToProps (state) {
   return {
     data: state.summonerData,
     league: state.summonerLeague,
-    isFetching: state.isFetching,
-    summoner: state.summoner
+    isFetching: state.isFetching
   }
 }
 
