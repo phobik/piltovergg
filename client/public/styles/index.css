@@ -126,3 +126,9 @@ header {
   font-size: 1.3em;
   margin-left: .5em;
 }
+
+.item-img {
+  margin: .4em 0;
+  height: 50px;
+  width: 50px;
+}
