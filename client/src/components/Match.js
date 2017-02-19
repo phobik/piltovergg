@@ -23,18 +23,20 @@ class Match extends Component {
 
     const items = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
       const id = summonerParticipant.stats[key]
+
+      // TODO: Actual placeholder image
       const src = id === 0 ?
         'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png' :
         `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
 
       return (
-        // TODO: Alt text
+        // TODO: Alt text + item tooltips on hover
         <img key={index} className="item-img" src={src} alt="item" />
       )
     })
 
-    // Grab KDA values out of the summoner's stats
-    const { kills, deaths, assists } = summonerParticipant.stats
+    // Grab relevant values out of the summoner's stats
+    const { kills, deaths, assists, goldEarned } = summonerParticipant.stats
 
     // Determine whether this match should be displayed as a win or loss based
     // on which summoner is being search for
@@ -52,6 +54,9 @@ class Match extends Component {
         </p>
         <p className="match-duration">
           Match duration: {durationString}
+        </p>
+        <p className="match-gold-earned">
+          Gold Earned: {goldEarned}
         </p>
 
         <img className="match-champion" src={championThumbnailUrl} role="presentation"/>
