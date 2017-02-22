@@ -1,3 +1,11 @@
+/*
+  Styling needs a lot of cleanup/organization. I've seen a pattern where css is stored more
+  locally to components. e.g. the `Match` component would move into a `Match/` directory
+  with a corresponding `Match.css` file. Worth considering.
+
+  Also redo 90% of this with flexbox as a learning exercise.
+*/
+
 body {
   margin: 0;
   padding: 0;

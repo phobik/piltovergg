@@ -9,10 +9,7 @@ class Match extends Component {
     // to the server or at the very least move it into separate methods
     // to clean up this `render` method.
 
-    // Set up timestamp/match duration presentation
-    const msPlayedAgo = new Date() - new Date(matchDetails.matchCreation)
-    const playedAgoString = getPlayedAgoString((msPlayedAgo))
-    const matchDuration = matchDetails.matchDuration
+    const { playedAgoString, durationString } = getTimeStamps(matchDetails)
 
     // Find the corresponding `participant` and `participantIentity` objects
     // based on the `summonerId` of the summoner being searched
@@ -20,6 +17,9 @@ class Match extends Component {
       .find((pi) => pi.player.summonerId === summonerId)
     const summonerParticipant = matchDetails.participants
       .find((p) => p.participantId === summonerIdentity.participantId)
+
+    const summonerSpell1Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell1Key}.png`
+    const summonerSpell2Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell2Key}.png`
 
     const items = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
       const id = summonerParticipant.stats[key]
@@ -44,22 +44,18 @@ class Match extends Component {
     const isWin = summonerParticipant.teamId === winningTeamId
     const matchCardClassName = isWin ? "match card win" : "match card loss"
 
-    // Prettify the match duration a bit
-    const durationString = `${Math.floor(matchDuration / 60)}m ${matchDuration % 60}s`
-
     return (
       <div className={matchCardClassName}>
-        <p className="match-played-at">
-          {playedAgoString}
-        </p>
-        <p className="match-duration">
-          Match duration: {durationString}
-        </p>
-        <p className="match-gold-earned">
-          Gold Earned: {goldEarned}
-        </p>
+        <div className="match-timestamps-container">
+          {playedAgoString} - Match duration: {durationString} - Gold Earned: {goldEarned}
+        </div>
 
         <img className="match-champion" src={championThumbnailUrl} role="presentation"/>
+
+        <div className="match-summoner-spells-container">
+          <img className="summoner-spell" src={summonerSpell1Img} />
+          <img className="summoner-spell" src={summonerSpell2Img} />
+        </div>
 
         <div className="match-summoner-stats">
           <span className="kills">{kills}</span>/
@@ -100,6 +96,16 @@ function getPlayedAgoString(msPlayedAgo) {
   }
 
   return 'a few seconds ago'
+}
+
+function getTimeStamps (matchDetails) {
+  const msPlayedAgo = new Date() - new Date(matchDetails.matchCreation)
+  const playedAgoString = getPlayedAgoString((msPlayedAgo))
+
+  const { matchDuration } = matchDetails
+  const durationString = `${Math.floor(matchDuration / 60)}m ${matchDuration % 60}s`
+
+  return { playedAgoString, durationString }
 }
 
 export default Match
