@@ -46,25 +46,27 @@ class Match extends Component {
 
     return (
       <div className={matchCardClassName}>
-        <div className="match-timestamps-container">
-          {playedAgoString} - Match duration: {durationString} - Gold Earned: {goldEarned}
-        </div>
+        <div className="match-left">
+           <img className="match-champion" src={championThumbnailUrl} role="presentation"/>
 
-        <img className="match-champion" src={championThumbnailUrl} role="presentation"/>
-
-        <div className="match-summoner-spells-container">
-          <img className="summoner-spell" src={summonerSpell1Img} />
-          <img className="summoner-spell" src={summonerSpell2Img} />
+          <div className="match-summoner-spells-container">
+            <img className="summoner-spell" src={summonerSpell1Img} />
+            <img className="summoner-spell" src={summonerSpell2Img} />
+          </div>
         </div>
 
         <div className="match-summoner-stats">
           <span className="kills">{kills}</span>/
           <span className="deaths">{deaths}</span>/
           <span className="assists">{assists}</span>
+        </div>
 
-          <div className="items-container">
-            {items}
-          </div>
+        <div className="items-container">
+          {items}
+        </div>
+
+        <div className="match-timestamps-container">
+          {playedAgoString} - Match duration: {durationString} - Gold Earned: {goldEarned}
         </div>
       </div>
     )

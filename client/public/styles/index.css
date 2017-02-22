@@ -130,13 +130,39 @@ header {
 
 .match-summoner-stats {
   display: inline-block;
-  vertical-align: top;
   font-size: 1.3em;
-  margin-left: .5em;
 }
 
 .item-img {
   margin: .4em 0;
   height: 50px;
   width: 50px;
+}
+
+.match-left {
+  display: inline-block;
+  height: 120px;
+  width: 20%;
+}
+
+.match-champion {
+  display: inline-block
+}
+
+.match-summoner-spells-container {
+  height: 100%;
+  display: inline-block;
+}
+
+.summoner-spell {
+  height: 50%;
+  display: block;
+}
+
+.items-container {
+  display: inline-block;
+}
+
+.match-timestamps-container {
+  display: inline-block;
 }
