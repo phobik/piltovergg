@@ -6,6 +6,8 @@
   Also redo 90% of this with flexbox as a learning exercise.
 */
 
+/* Global Styles */
+
 body {
   margin: 0;
   padding: 0;
@@ -42,9 +44,7 @@ header {
   margin: 1em;
 }
 
-.stats-container {
-  width: 50%;
-}
+/* Search Styles */
 
 @keyframes search-actions {
   from { top: 100px; }
@@ -95,6 +95,8 @@ header {
   animation-duration: .6s;
 }
 
+/* Search Result Styles */
+
 .summoner-info {
   display: inline-block;
   margin: 1em;
@@ -105,48 +107,20 @@ header {
   margin: auto auto;
 }
 
-.win {
-  background-color: #7ccb73;
-}
-
-.loss {
-  background-color: #de8484;
-}
-
-.blue-team {
-  box-sizing: border-box;
-  width: 50%;
-  display: inline-block;
-  background-color: #79d7e7;
-}
-
-.red-team {
-  box-sizing: border-box;
-  width: 50%;
-  display: inline-block;
-  text-align: right;
-  background-color: #fa6868;
-}
-
-.match-summoner-stats {
-  display: inline-block;
-  font-size: 1.3em;
-}
-
-.item-img {
-  margin: .4em 0;
-  height: 50px;
-  width: 50px;
+.match {
+  height: 8em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .match-left {
-  display: inline-block;
   height: 120px;
-  width: 20%;
 }
 
 .match-champion {
-  display: inline-block
+  height: 100%;
+  display: inline-block;
 }
 
 .match-summoner-spells-container {
@@ -159,10 +133,30 @@ header {
   display: block;
 }
 
-.items-container {
-  display: inline-block;
+.win {
+  background-color: #7ccb73;
 }
 
-.match-timestamps-container {
-  display: inline-block;
+.loss {
+  background-color: #de8484;
+}
+
+.match-summoner-stats, .items-container, .match-timestamps-container {
+  margin: auto auto;
+}
+
+.match-summoner-stats {
+  font-size: 1.3em;
+}
+
+.items-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.item-img {
+  height: 50px;
+  width: 50px;
 }

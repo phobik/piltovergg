@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 class Match extends Component {
   render () {
-    const matchDetails = this.props.details
-    const { summonerId, championThumbnailUrl } = this.props
+    const { details, championThumbnailUrl, summonerId } = this.props
 
     // TODO: Potentially move parts of this data marshalling process to the server
-    const { playedAgoString, durationString } = getTimeStamps(matchDetails)
-    const { summonerIdentity, summonerParticipant } = getIdentities(matchDetails, summonerId)
+    const { playedAgoString, durationString } = getTimeStamps(details)
+    const { summonerParticipant } = getIdentities(details, summonerId)
     const items = getItems(summonerParticipant)
 
     const summonerSpell1Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell1Key}.png`
@@ -18,70 +17,77 @@ class Match extends Component {
 
     // Determine whether this match should be displayed as a win or loss based
     // on which summoner is being search for
-    const winningTeamId = matchDetails.teams.find((team) => team.winner).teamId
+    const winningTeamId = details.teams.find((team) => team.winner).teamId
     const isWin = summonerParticipant.teamId === winningTeamId
-    const matchCardClassName = isWin ? "match card win" : "match card loss"
+    const matchCardClassName = isWin ? 'match card win' : 'match card loss'
 
     return (
       <div className={matchCardClassName}>
-        <div className="match-left">
-           <img className="match-champion" src={championThumbnailUrl} role="presentation"/>
-
-          <div className="match-summoner-spells-container">
-            <img className="summoner-spell" src={summonerSpell1Img} />
-            <img className="summoner-spell" src={summonerSpell2Img} />
+        <div className='match-left'>
+          <img className='match-champion' src={championThumbnailUrl} role='presentation' />
+          <div className='match-summoner-spells-container'>
+            <img className='summoner-spell' src={summonerSpell1Img} />
+            <img className='summoner-spell' src={summonerSpell2Img} />
           </div>
         </div>
 
-        <div className="match-summoner-stats">
-          <span className="kills">{kills}</span>/
-          <span className="deaths">{deaths}</span>/
-          <span className="assists">{assists}</span>
+        <div className='match-summoner-stats'>
+          <span className='kills'>{kills}</span>/
+          <span className='deaths'>{deaths}</span>/
+          <span className='assists'>{assists}</span>
         </div>
 
-        <div className="items-container">
+        <div className='items-container'>
           {items}
         </div>
 
-        <div className="match-timestamps-container">
-          {playedAgoString} - Match duration: {durationString} - Gold Earned: {goldEarned}
+        <div className='match-timestamps-container'>
+          <p>{playedAgoString}</p>
+          <p>{durationString}</p>
+          <p>{goldEarned}g</p>
         </div>
       </div>
     )
   }
 }
 
-function getIdentities (matchDetails, summonerId) {
+Match.propTypes = {
+  championThumbnailUrl: PropTypes.string,
+  details: PropTypes.object,
+  summonerId: PropTypes.number
+}
+
+function getIdentities (details, summonerId) {
   // Find the corresponding `participant` and `participantIentity` objects
   // based on the `summonerId` of the summoner being searched
-  const summonerIdentity = matchDetails.participantIdentities
+  const summonerIdentity = details.participantIdentities
     .find((pi) => pi.player.summonerId === summonerId)
-  const summonerParticipant = matchDetails.participants
+  const summonerParticipant = details.participants
     .find((p) => p.participantId === summonerIdentity.participantId)
 
   return { summonerIdentity, summonerParticipant }
 }
 
 function getItems (summonerParticipant) {
-   return ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
-      const id = summonerParticipant.stats[key]
+  return ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
+    const id = summonerParticipant.stats[key]
 
-      // TODO: Actual placeholder image
-      const src = id === 0 ?
-        'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png' :
-        `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
+    // TODO: Actual placeholder image
+    const src = id === 0
+      ? 'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png'
+      : `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
 
-      return (
-        // TODO: Alt text + item tooltips on hover
-        <img key={index} className="item-img" src={src} alt="item" />
-      )
-    })
+    return (
+      // TODO: Alt text + item tooltips on hover
+      <img key={index} className='item-img' src={src} alt='item' />
+    )
+  })
 }
 
 function getPlayedAgoString (msPlayedAgo) {
   const MILLISECONDS_PER_DAY = (1000 * 60 * 60 * 24)
   const MILLISECONDS_PER_HOUR = (1000 * 60 * 60)
-  const MILLISECONDS_PER_MINUTE= (1000 * 60)
+  const MILLISECONDS_PER_MINUTE = (1000 * 60)
 
   const daysPlayedAgo = Math.floor(msPlayedAgo / MILLISECONDS_PER_DAY)
 
@@ -105,11 +111,11 @@ function getPlayedAgoString (msPlayedAgo) {
   return 'a few seconds ago'
 }
 
-function getTimeStamps (matchDetails) {
-  const msPlayedAgo = new Date() - new Date(matchDetails.matchCreation)
+function getTimeStamps (details) {
+  const msPlayedAgo = new Date() - new Date(details.matchCreation)
   const playedAgoString = getPlayedAgoString((msPlayedAgo))
 
-  const { matchDuration } = matchDetails
+  const { matchDuration } = details
   const durationString = `${Math.floor(matchDuration / 60)}m ${matchDuration % 60}s`
 
   return { playedAgoString, durationString }
