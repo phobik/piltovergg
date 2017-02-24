@@ -5,7 +5,7 @@ import SearchContainer from './SearchContainer'
 class App extends Component {
   render () {
     return (
-      <div className="app">
+      <div className='app'>
         <SearchContainer />
       </div>
     )

@@ -1,29 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Stats from '../components/Stats'
 
 class StatsContainer extends Component {
   render () {
-    const { isFetching, data, } = this.props
+    const { isFetching, data } = this.props
 
     if (isFetching || !data) {
       return (
-        <div className="a-spinner-eventually"></div>
+        <div className='a-spinner-eventually' />
       )
     }
 
     const statsSummaryNodes = marshallStatsSummary(data.summary)
 
     return (
-      <div className="stats-container card">
+      <div className='stats-container card'>
         <h3>Wins per Game Mode</h3>
-        <ul className="stats-list">
+        <ul className='stats-list'>
           {statsSummaryNodes}
         </ul>
       </div>
     )
   }
+}
+
+StatsContainer.propTypes = {
+  isFetching: PropTypes.bool,
+  data: PropTypes.object
 }
 
 const statTypeMapping = {

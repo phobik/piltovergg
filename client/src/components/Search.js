@@ -30,20 +30,20 @@ class Search extends Component {
 
   render () {
     return (
-      <form className="search-form" onSubmit={this.handleSubmit}>
+      <form className='search-form' onSubmit={this.handleSubmit}>
         <input
-          type="text"
+          type='text'
           onChange={this.handleSummonerChange}
-          className="input-summoner"
-          placeholder="Enter a summoner name"
+          className='input-summoner'
+          placeholder='Enter a summoner name'
         />
 
-        <button className="search-button" type="submit" >
-          <i className="fa fa-search search-icon" aria-hidden="true"></i>
+        <button className='search-button' type='submit' >
+          <i className='fa fa-search search-icon' aria-hidden='true' />
         </button>
 
-        <select onChange={this.handleRegionChange} defaultValue="na" className="input-region">
-          <option value="na">NA</option>
+        <select onChange={this.handleRegionChange} defaultValue='na' className='input-region'>
+          <option value='na'>NA</option>
         </select>
       </form>
     )

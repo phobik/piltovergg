@@ -108,14 +108,14 @@ header {
 }
 
 .match {
-  height: 8em;
+  height: 7em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .match-left {
-  height: 120px;
+  height: 100%;
 }
 
 .match-champion {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import MatchesContainer from './MatchesContainer'
@@ -41,12 +41,17 @@ class SearchResultsContainer extends Component {
 
   render () {
     return (
-      <div className="search-results-container">
-        <SummonerContainer/>
+      <div className='search-results-container'>
+        <SummonerContainer />
         <MatchesContainer />
       </div>
     )
   }
+}
+
+SearchResultsContainer.propTypes = {
+  dispatch: PropTypes.func,
+  routeParams: PropTypes.object
 }
 
 function mapStateToProps (state) {
