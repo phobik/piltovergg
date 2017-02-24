@@ -5,35 +5,13 @@ class Match extends Component {
     const matchDetails = this.props.details
     const { summonerId, championThumbnailUrl } = this.props
 
-    // TODO: Potentially move parts of this data marshalling process
-    // to the server or at the very least move it into separate methods
-    // to clean up this `render` method.
-
+    // TODO: Potentially move parts of this data marshalling process to the server
     const { playedAgoString, durationString } = getTimeStamps(matchDetails)
-
-    // Find the corresponding `participant` and `participantIentity` objects
-    // based on the `summonerId` of the summoner being searched
-    const summonerIdentity = matchDetails.participantIdentities
-      .find((pi) => pi.player.summonerId === summonerId)
-    const summonerParticipant = matchDetails.participants
-      .find((p) => p.participantId === summonerIdentity.participantId)
+    const { summonerIdentity, summonerParticipant } = getIdentities(matchDetails, summonerId)
+    const items = getItems(summonerParticipant)
 
     const summonerSpell1Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell1Key}.png`
     const summonerSpell2Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell2Key}.png`
-
-    const items = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
-      const id = summonerParticipant.stats[key]
-
-      // TODO: Actual placeholder image
-      const src = id === 0 ?
-        'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png' :
-        `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
-
-      return (
-        // TODO: Alt text + item tooltips on hover
-        <img key={index} className="item-img" src={src} alt="item" />
-      )
-    })
 
     // Grab relevant values out of the summoner's stats
     const { kills, deaths, assists, goldEarned } = summonerParticipant.stats
@@ -73,7 +51,34 @@ class Match extends Component {
   }
 }
 
-function getPlayedAgoString(msPlayedAgo) {
+function getIdentities (matchDetails, summonerId) {
+  // Find the corresponding `participant` and `participantIentity` objects
+  // based on the `summonerId` of the summoner being searched
+  const summonerIdentity = matchDetails.participantIdentities
+    .find((pi) => pi.player.summonerId === summonerId)
+  const summonerParticipant = matchDetails.participants
+    .find((p) => p.participantId === summonerIdentity.participantId)
+
+  return { summonerIdentity, summonerParticipant }
+}
+
+function getItems (summonerParticipant) {
+   return ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
+      const id = summonerParticipant.stats[key]
+
+      // TODO: Actual placeholder image
+      const src = id === 0 ?
+        'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png' :
+        `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
+
+      return (
+        // TODO: Alt text + item tooltips on hover
+        <img key={index} className="item-img" src={src} alt="item" />
+      )
+    })
+}
+
+function getPlayedAgoString (msPlayedAgo) {
   const MILLISECONDS_PER_DAY = (1000 * 60 * 60 * 24)
   const MILLISECONDS_PER_HOUR = (1000 * 60 * 60)
   const MILLISECONDS_PER_MINUTE= (1000 * 60)
