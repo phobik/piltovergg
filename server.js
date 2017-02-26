@@ -19,30 +19,39 @@ if (process.env.NODE_ENV === 'production') {
 
 // TODO: Move routes/handler methods into their own modules + consider
 // dynamically adding `catch` statements to each handle promise
-app.get('/api/summoners/:region/:name', (request, response) => {
+app.get('/api/summoners/:region/:name', async (request, response) => {
   const { name, region } = request.params
-
-  summoners.getByName({ name, region })
-    .then((data) => {
-      response.send(data)
-    })
-    .catch((error) => {
-      console.log(error)
-      response.send(error)
-    })
+  try {
+    const data = await summoners.getByName({ name, region })
+    response.send(data)
+  } catch (error) {
+    console.error(error)
+    response.send(error)
+  }
 })
 
-app.get('/api/summoners/:region/:id/stats', (request, response) => {
+app.get('/api/summoners/:region/:id/stats', async (request, response) => {
   const { id, region } = request.params
 
-  summoners.getStatsById({ summonerId: id, region })
-    .then((statsData) => {
-      response.send(statsData)
-    })
-    .catch((error) => {
-      console.log(error)
-      response.send(error)
-    })
+  try {
+    const data = await summoners.getStatsById({ summonerId: id, region })
+    response.send(data)
+  } catch (error) {
+    console.error(error)
+    response.send(error)
+  }
+})
+
+app.get('/api/summoners/:region/:id/league', async (request, response) => {
+  const { id, region } = request.params
+
+  try {
+    const data = await summoners.getLeagueById({ summonerId: id, region })
+    response.send(data)
+  } catch (error) {
+    console.error(error)
+    response.send(error)
+  }
 })
 
 app.get('/api/summoners/:region/:id/matches', (request, response) => {
@@ -50,19 +59,6 @@ app.get('/api/summoners/:region/:id/matches', (request, response) => {
 
   matches.getMatchesBySummonerId({ summonerId: id, region })
     .then((data) => response.send(data))
-    .catch((error) => {
-      console.log(error)
-      response.send(error)
-    })
-})
-
-app.get('/api/summoners/:region/:id/league', (request, response) => {
-  const { id, region } = request.params
-
-  summoners.getLeagueById({ summonerId: id, region })
-    .then((leagueData) => {
-      response.send(leagueData)
-    })
     .catch((error) => {
       console.log(error)
       response.send(error)
