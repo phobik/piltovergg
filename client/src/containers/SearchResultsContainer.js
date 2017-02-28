@@ -13,30 +13,23 @@ import {
 } from '../actions'
 
 class SearchResultsContainer extends Component {
-  componentDidMount () {
+  async componentDidMount () {
     const { summoner, region } = this.props.routeParams
     const { dispatch } = this.props
 
     dispatch(setRegion(region))
     dispatch(setSummoner(summoner))
 
-    let summonerId
+    try {
+      const { summonerData } = await dispatch(fetchSummonerData({ summoner, region }))
+      const summonerId = summonerData.id
 
-    // This request chain might need to be cleaned up, right now the UI
-    // will only update once we have complete the request chain for
-    // SummonerData -> SummonerLeague -> Matches. It'd be nice to update
-    // peacemeal instead so we don't have to display loading/a spinner
-    // while the (potentially) long request for match data is pending.3
-    dispatch(fetchSummonerData({ summoner, region }))
-      .then(({ summonerData }) => {
-        summonerId = summonerData.id
-        return dispatch(fetchSummonerLeague({ summonerId: summonerId, region }))
-      })
-      .then(() => dispatch(fetchSummonerRecentMatches({ summonerId: summonerId, region })))
-      .catch((error) => {
-        // TODO: Handle error in request chain
-        console.error(error)
-      })
+      await dispatch(fetchSummonerLeague({ summonerId, region }))
+      await dispatch(fetchSummonerRecentMatches({ summonerId, region }))
+    } catch (error) {
+      // TODO: Handle errors in requests. Dispatch an `error action`
+      console.error(error)
+    }
   }
 
   render () {
