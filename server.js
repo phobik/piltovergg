@@ -17,8 +17,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
 }
 
-// TODO: Move routes/handler methods into their own modules + consider
-// dynamically adding `catch` statements to each handle promise
+// TODO: Move routes/handler methods into their own modules
 app.get('/api/summoners/:region/:name', async (request, response) => {
   const { name, region } = request.params
   try {
@@ -54,15 +53,16 @@ app.get('/api/summoners/:region/:id/league', async (request, response) => {
   }
 })
 
-app.get('/api/summoners/:region/:id/matches', (request, response) => {
+app.get('/api/summoners/:region/:id/matches', async (request, response) => {
   const { id, region } = request.params
 
-  matches.getMatchesBySummonerId({ summonerId: id, region })
-    .then((data) => response.send(data))
-    .catch((error) => {
-      console.log(error)
-      response.send(error)
-    })
+  try {
+    const data = await matches.getMatchesBySummonerId({ summonerId: id, region })
+    response.send(data)
+  } catch (error) {
+    console.error(error)
+    response.send(error)
+  }
 })
 
 const port = process.env.PORT || 8000
