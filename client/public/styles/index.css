@@ -134,11 +134,11 @@ header {
 }
 
 .win {
-  background-color: #7ccb73;
+  border-left: 8px solid #7ccb73;
 }
 
 .loss {
-  background-color: #de8484;
+ border-left: 8px solid #de8484;
 }
 
 .match-summoner-stats, .items-container, .match-timestamps-container {

@@ -2,24 +2,17 @@ import React, { Component, PropTypes } from 'react'
 
 class Match extends Component {
   render () {
-    const { details, championThumbnailUrl, summonerId } = this.props
+    const { details, championThumbnailUrl } = this.props
 
     // TODO: Potentially move parts of this data marshalling process to the server
     const { playedAgoString, durationString } = getTimeStamps(details)
-    const { summonerParticipant } = getIdentities(details, summonerId)
+    const { summonerParticipant, summonerSpell1Img, summonerSpell2Img } = details
     const items = getItems(summonerParticipant)
-
-    const summonerSpell1Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell1Key}.png`
-    const summonerSpell2Img = `http://ddragon.leagueoflegends.com/cdn/7.4.1/img/spell/${summonerParticipant.summonerSpell2Key}.png`
 
     // Grab relevant values out of the summoner's stats
     const { kills, deaths, assists, goldEarned } = summonerParticipant.stats
 
-    // Determine whether this match should be displayed as a win or loss based
-    // on which summoner is being search for
-    const winningTeamId = details.teams.find((team) => team.winner).teamId
-    const isWin = summonerParticipant.teamId === winningTeamId
-    const matchCardClassName = isWin ? 'match card win' : 'match card loss'
+    const matchCardClassName = details.isWin ? 'match card win' : 'match card loss'
 
     return (
       <div className={matchCardClassName}>
@@ -57,17 +50,7 @@ Match.propTypes = {
   summonerId: PropTypes.number
 }
 
-function getIdentities (details, summonerId) {
-  // Find the corresponding `participant` and `participantIentity` objects
-  // based on the `summonerId` of the summoner being searched
-  const summonerIdentity = details.participantIdentities
-    .find((pi) => pi.player.summonerId === summonerId)
-  const summonerParticipant = details.participants
-    .find((p) => p.participantId === summonerIdentity.participantId)
-
-  return { summonerIdentity, summonerParticipant }
-}
-
+// Extract items out of the match details and assign placeholder images/image elements where appropriate
 function getItems (summonerParticipant) {
   return ['item0', 'item1', 'item2', 'item3', 'item4', 'item5'].map((key, index) => {
     const id = summonerParticipant.stats[key]
@@ -84,6 +67,7 @@ function getItems (summonerParticipant) {
   })
 }
 
+// Generate user-friendly time information from the timestamps included in the API response
 function getPlayedAgoString (msPlayedAgo) {
   const MILLISECONDS_PER_DAY = (1000 * 60 * 60 * 24)
   const MILLISECONDS_PER_HOUR = (1000 * 60 * 60)
@@ -111,6 +95,7 @@ function getPlayedAgoString (msPlayedAgo) {
   return 'a few seconds ago'
 }
 
+// Timestamps need to be calculated on the client since the server does heavy caching
 function getTimeStamps (details) {
   const msPlayedAgo = new Date() - new Date(details.matchCreation)
   const playedAgoString = getPlayedAgoString((msPlayedAgo))
