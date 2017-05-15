@@ -2,6 +2,7 @@
 require('dotenv').config()
 
 const express = require('express')
+const cors = require('cors')
 const matches = require('./lib/matches')
 const morgan = require('morgan')
 const summoners = require('./lib/summoners')
@@ -10,7 +11,14 @@ const app = express()
 
 const logger = morgan('dev')
 
+app.use(cors())
 app.use(logger)
+
+// Set the content-type header for all requests
+app.use((request, response, next) => {
+  response.header('Content-Type', 'application/json')
+  next()
+})
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -19,6 +27,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // TODO: Move routes/handler methods into their own modules
 app.get('/api/summoners/:region/:name', async (request, response) => {
+  console.log('Hello world!')
   const { name, region } = request.params
   try {
     const data = await summoners.getByName({ name, region })

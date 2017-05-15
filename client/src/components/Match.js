@@ -35,9 +35,9 @@ class Match extends Component {
         </div>
 
         <div className='match-timestamps-container'>
-          <p>{playedAgoString}</p>
-          <p>{durationString}</p>
-          <p>{goldEarned}g</p>
+          <span>{playedAgoString}</span>
+          <span>{durationString}</span>
+          <span>{goldEarned}g</span>
         </div>
       </div>
     )
@@ -58,7 +58,7 @@ function getItems (summonerParticipant) {
     // TODO: Actual placeholder image
     const src = id === 0
       ? 'http://www.clipartkid.com/images/656/white-square-clip-art-at-clker-com-vector-clip-art-online-royalty-12bI8H-clipart.png'
-      : `http://ddragon.leagueoflegends.com/cdn/7.3.3/img/item/${id}.png`
+      : `http://ddragon.leagueoflegends.com/cdn/7.9.2/img/item/${id}.png`
 
     return (
       // TODO: Alt text + item tooltips on hover

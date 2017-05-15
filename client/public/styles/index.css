@@ -108,7 +108,7 @@ header {
 }
 
 .match {
-  height: 7em;
+  height: 4em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -145,8 +145,17 @@ header {
   margin: auto auto;
 }
 
+.match-timestamps-container {
+  width: 18em;
+}
+
+.match-timestamps-container > span {
+  margin-right: 1em;
+}
+
 .match-summoner-stats {
-  font-size: 1.3em;
+  font-size: 1.2em;
+  width: 5em;
 }
 
 .items-container {

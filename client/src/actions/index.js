@@ -102,7 +102,7 @@ export const fetchSummonerData = ({ summoner, region }) => {
   return (dispatch) => {
     dispatch(requestSummonerData(summoner, region))
 
-    return fetch(`/api/summoners/${region}/${summoner}`)
+    return window.fetch(`/api/summoners/${region}/${summoner}`)
       .then((response) => response.json())
       .then((data) => dispatch(receiveSummonerData(summoner, region, data)))
   }
@@ -112,7 +112,7 @@ export const fetchSummonerStats = ({ summonerId, region }) => {
   return (dispatch) => {
     dispatch(requestSummonerStats(summonerId, region))
 
-    return fetch(`/api/summoners/${region}/${summonerId}/stats`)
+    return window.fetch(`/api/summoners/${region}/${summonerId}/stats`)
       .then((response) => response.json())
       .then((data) => dispatch(receiveSummonerStats(summonerId, region, data)))
   }
@@ -122,7 +122,7 @@ export const fetchSummonerLeague = ({ summonerId, region }) => {
   return (dispatch) => {
     dispatch(requestSummonerLeague(summonerId, region))
 
-    return fetch(`/api/summoners/${region}/${summonerId}/league`)
+    return window.fetch(`/api/summoners/${region}/${summonerId}/league`)
       .then((response) => response.json())
       .then((data) => dispatch(receiveSummonerLeague(summonerId, region, data)))
   }
@@ -132,7 +132,7 @@ export const fetchSummonerRecentMatches = ({ summonerId, region }) => {
   return (dispatch) => {
     dispatch(requestSummonerRecentMatches(summonerId, region))
 
-    return fetch(`/api/summoners/${region}/${summonerId}/matches`)
+    return window.fetch(`/api/summoners/${region}/${summonerId}/matches`)
       .then((response) => response.json())
       .then((data) => dispatch(receiveSummonerRecentMatches(summonerId, region, data.matches)))
   }
