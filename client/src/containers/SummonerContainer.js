@@ -1,19 +1,16 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 
 import Summoner from '../components/Summoner'
 
 class SummonerContainer extends Component {
   render () {
-    const { isFetching, data, league } = this.props
+    const { summoner, league } = this.props
 
-    if (isFetching || !data || !league) {
-      return (
-        <div className='a-spinner-eventually' />
-      )
+    if (!summoner || !league) {
+      return null
     }
 
-    const summonerId = data.id
+    const summonerId = summoner.id
 
     if (!league[summonerId]) {
       return (
@@ -25,7 +22,7 @@ class SummonerContainer extends Component {
 
     return (
       <div className='summoner-container card'>
-        <Summoner summonerData={data} leagueData={leagueData} />
+        <Summoner summonerData={summoner} leagueData={leagueData} />
       </div>
     )
   }
@@ -37,12 +34,4 @@ SummonerContainer.propTypes = {
   league: PropTypes.object
 }
 
-function mapStateToProps (state) {
-  return {
-    data: state.summonerData,
-    league: state.summonerLeague,
-    isFetching: state.isFetching
-  }
-}
-
-export default connect(mapStateToProps)(SummonerContainer)
+export default SummonerContainer

@@ -1,31 +1,31 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 
 import MatchesContainer from './MatchesContainer'
 import SummonerContainer from './SummonerContainer'
 
-import {
-  fetchSummonerData,
-  fetchSummonerLeague,
-  fetchSummonerRecentMatches,
-  setRegion,
-  setSummoner
-} from '../actions'
-
 class SearchResultsContainer extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      isFetching: true,
+      summonerData: null,
+      summonerLeague: null,
+      summonerMatches: null
+    }
+  }
   async componentDidMount () {
     const { summoner, region } = this.props.routeParams
-    const { dispatch } = this.props
-
-    dispatch(setRegion(region))
-    dispatch(setSummoner(summoner))
 
     try {
-      const { summonerData } = await dispatch(fetchSummonerData({ summoner, region }))
+      // Fetch summoner data -> summoner league -> summoner recent matches
+      const summonerData = await fetchSummonerData({ summoner, region })
       const summonerId = summonerData.id
 
-      await dispatch(fetchSummonerLeague({ summonerId, region }))
-      await dispatch(fetchSummonerRecentMatches({ summonerId, region }))
+      const summonerLeague = await fetchSummonerLeague({ summonerId, region })
+      const summonerMatches = (await fetchSummonerMatches({ summonerId, region })).matches
+
+      this.setState({ summonerData, summonerLeague, summonerMatches, isFetching: false })
     } catch (error) {
       // TODO: Handle errors in requests. Dispatch an `error action`
       console.error(error)
@@ -33,25 +33,39 @@ class SearchResultsContainer extends Component {
   }
 
   render () {
+    if (this.state.isFetching) {
+      return <div className='loader' />
+    }
+
     return (
       <div className='search-results-container'>
-        <SummonerContainer />
-        <MatchesContainer />
+        <SummonerContainer summoner={this.state.summonerData} league={this.state.summonerLeague} />
+        <MatchesContainer matches={this.state.summonerMatches} />
       </div>
     )
   }
 }
 
 SearchResultsContainer.propTypes = {
-  dispatch: PropTypes.func,
   routeParams: PropTypes.object
 }
 
-function mapStateToProps (state) {
-  return {
-    summoner: state.summoner,
-    region: state.region
-  }
+async function fetchSummonerData ({ summoner, region }) {
+  const response = await window.fetch(`/api/summoners/${region}/${summoner}`)
+
+  return await response.json()
 }
 
-export default connect(mapStateToProps)(SearchResultsContainer)
+async function fetchSummonerLeague ({ summonerId, region }) {
+  const response = await window.fetch(`/api/summoners/${region}/${summonerId}/league`)
+
+  return await response.json()
+}
+
+async function fetchSummonerMatches ({ summonerId, region }) {
+  const response = await window.fetch(`/api/summoners/${region}/${summonerId}/matches`)
+
+  return await response.json()
+}
+
+export default SearchResultsContainer

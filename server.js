@@ -9,6 +9,7 @@ const summoners = require('./lib/summoners')
 
 const app = express()
 
+// TODO: Add production logging
 const logger = morgan('dev')
 
 app.use(cors())
