@@ -17,7 +17,7 @@ class Match extends Component {
     return (
       <div className={matchCardClassName}>
         <div className='match-left'>
-          <img className='match-champion' src={championThumbnailUrl} role='presentation' />
+          <img className='match-champion' src={championThumbnailUrl} alt='' />
           <div className='match-summoner-spells-container'>
             <img className='summoner-spell' src={summonerSpell1Img} alt={summonerParticipant.summonerSpell1Key} />
             <img className='summoner-spell' src={summonerSpell2Img} alt={summonerParticipant.summonerSpell2Key} />

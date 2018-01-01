@@ -1,6 +1,6 @@
 import { Router, Route, browserHistory } from 'react-router'
 import App from './containers/App'
-import React, { PropTypes } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import SearchResultsContainer from './containers/SearchResultsContainer'
 

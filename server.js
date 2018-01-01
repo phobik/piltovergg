@@ -28,8 +28,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // TODO: Move routes/handler methods into their own modules
 app.get('/api/summoners/:region/:name', async (request, response) => {
-  console.log('Hello world!')
   const { name, region } = request.params
+
   try {
     const data = await summoners.getByName({ name, region })
     response.send(data)
