@@ -9,7 +9,7 @@ class Match extends Component {
     const { summonerParticipant, summonerSpell1Img, summonerSpell2Img } = details
     const items = getItems(summonerParticipant)
 
-    // Grab relevant values out of the summoner's stats
+    // Grab relevant values out of the summoner's stats ok
     const { kills, deaths, assists, goldEarned } = summonerParticipant.stats
 
     const matchCardClassName = details.isWin ? 'match card win' : 'match card loss'
